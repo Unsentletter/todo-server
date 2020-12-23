@@ -16,11 +16,12 @@ export const registerRoutes = (app: express.Application): void => {
 
   // Register module routes
   for (const group of allRouteGroups) {
-    app.use(`/${group.basePath}`, group.router);
+    app.use(`/api/${group.basePath}`, group.router);
   }
 
   // Catch-all route
   app.get('*', async function (req, res) {
+    console.log('*FAIL');
     res.status(404);
     res.end();
   });
