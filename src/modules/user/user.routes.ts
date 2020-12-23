@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { RouteGroup } from '@src/typings/route.types';
 import { failResponse, successResponse } from '@src/utils/response';
 
-import { createUser } from './user.controller';
+import { createUser, signInUser } from './user.controller';
 
 const router = Router();
 
@@ -30,6 +30,16 @@ router.post('/signup', async (req, res) => {
   }
 
   return res.json(didSucceed);
+});
+
+router.post('/signin', async (req, res) => {
+  const reqBody = req.body;
+  const email = reqBody.email;
+  const password = reqBody.password;
+
+  const signIn = await signInUser({ email, password });
+
+  return res.json(signIn);
 });
 
 export const routeGroup: RouteGroup = {

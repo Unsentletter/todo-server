@@ -26,4 +26,22 @@ export class User {
 
     return { user: newUser, token };
   }
+
+  static async signIn(email: string, password: string): Promise<any> {
+    const db = await getDbClient();
+    const user = await db.collection('user').findOne({ email });
+
+    if (!user) {
+      throw new Error('unable to log in');
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      throw new Error('unable to log in');
+    }
+
+    const token = jwt.sign({ _id: user._id }, 'secretvalue');
+    return { user, token };
+  }
 }
