@@ -44,4 +44,20 @@ export class User {
     const token = jwt.sign({ _id: user._id }, 'secretvalue');
     return { user, token };
   }
+
+  static async createOrganisation(orgName: string) {
+    const db = getDbClient();
+    const currentDate = new Date();
+    const companyObject = {
+      orgName,
+      created: currentDate,
+    };
+    const createCompanyObject = await (await db).collection('company').insertOne(companyObject);
+
+    if (!createCompanyObject) {
+      throw new Error('Unable to create company');
+    }
+
+    return createCompanyObject.ops[0];
+  }
 }

@@ -11,6 +11,10 @@ interface SignInUserInput {
   password: string;
 }
 
+interface CreateOrganisationInput {
+  orgName: string;
+}
+
 export async function createUser({ name, email, password }: CreateUserInput): Promise<any> {
   try {
     const user = await User.create(name, email, password);
@@ -28,5 +32,14 @@ export async function signInUser({ email, password }: SignInUserInput): Promise<
   } catch (e) {
     console.error('Could not sign in user');
     return;
+  }
+}
+
+export async function createOrganisation({ orgName }: CreateOrganisationInput): Promise<any> {
+  try {
+    const organisation = await User.createOrganisation(orgName);
+    return organisation;
+  } catch (e) {
+    console.error('Could not create company', e);
   }
 }

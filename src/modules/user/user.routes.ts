@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { RouteGroup } from '@src/typings/route.types';
 import { failResponse, successResponse } from '@src/utils/response';
 
-import { createUser, signInUser } from './user.controller';
+import { createOrganisation, createUser, signInUser } from './user.controller';
 
 const router = Router();
 
@@ -40,6 +40,15 @@ router.post('/signin', async (req, res) => {
   const signIn = await signInUser({ email, password });
 
   return res.json(signIn);
+});
+
+router.post('/createorganisation', async (req, res) => {
+  const reqBody = req.body;
+  const orgName = reqBody.orgName;
+
+  const createOrg = await createOrganisation({ orgName });
+
+  return res.json(createOrg);
 });
 
 export const routeGroup: RouteGroup = {
